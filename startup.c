@@ -1,8 +1,9 @@
-// lyrinka OS startup code version 0.1.0 
+// lyrinka OS startup code version 0.1.1 
 // Contains main function, scheduler thread and system timer functions 
 // This piece of code is to be executed, not referenced by external code. 
 /* Release Notes: 
 
+			<0.1.1 > 190206 Refined error procedures on empty waiting lists. 
 			<0.1.0 > 190204 Initial Release. 
 */
 #include <stm32f10x.h> 
@@ -69,7 +70,11 @@ void OS_Scheduler(int Arg0, int Arg1, u32 Cnt, TASK Self){
 	SysTick_Init(9000); 
 	for(;;){ 
 		Task = Sched_Do(TickCount, Ev_Query, Ev_Cycle, GetSus); 
-		if(Task == NULL) __BKPT(0xE8); 
+		if(Task == NULL){ 
+			__critical_enter(); 
+			__BKPT(0xE8); 
+			__nop(); 
+		}
 		Lin_Switch(Task); 
 	}
 }

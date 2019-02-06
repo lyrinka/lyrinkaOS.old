@@ -1,4 +1,4 @@
-// Lin Architecture header file verion 3.1.2 for lyrinka OS 
+// Lin Architecture header file verion 3.1.3 for lyrinka OS 
 #ifndef __Lin_H__ 
 #define __Lin_H__ 
 

@@ -1,6 +1,7 @@
-// Symmetrical Scheduling Core version 0.1.1 
+// Symmetrical Scheduling Core version 0.1.2 
 /* Release Notes: 
 
+		<0.1.2 > 190206 Added debug info: scheduled times. 
 		<0.1.1 > 190203 Fully Commented. 
 		<0.1.0 > 190203 Initial Release. 
 */
@@ -11,11 +12,13 @@
 u32 PrevSysTime; 	// Timestamp of last scheduling. For determining when to perform TimeSlice operations. 
 TASK Running; 		// Currently Running Task. (Different from Lin_CurrTask for it changes to the scheduler thread itself when scheduling. ) 
 int SpinLock; 		// SpinLock flag. Locked when > 0. 
+u32 Sched_DebugSchedTimes; 
 
 void Sched_Init(TASK MainTask){ 	// Initialization of the scheduler and main task. 
 	PrevSysTime = 0xFFFFFFFF; 
 	Running = NULL; 
 	SpinLock = 0; 
+	Sched_DebugSchedTimes = 0; 
 	Lint_Init(MainTask); 
 }
 int Sched_Reg(TASK Task){ 	// Register for a task. Puts it in the Standby List so you might need a GenericEvent to wake it up. 
@@ -93,6 +96,7 @@ TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), 
 		SpinLock = 0; 
 		Running = PQ_Get(); 	// Get Next 
 	}
+	Sched_DebugSchedTimes++; 
 	return Running; 
 }
 

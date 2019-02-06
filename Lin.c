@@ -1,4 +1,4 @@
-// Lin Architecture version 3.1.2 for lyrinka OS 
+// Lin Architecture version 3.1.3 for lyrinka OS 
 /* The Lin Architecture Framework. 
 	Major changes in stack data structures 
 	providing a smart and flexiable interface 
@@ -10,6 +10,7 @@
 	
 	Release notes: 
 	
+	<3.1.3 > 190206 Changed some debug info to unsigned. 
 	<3.1.2 > 190127 Changed TCB Data Structure for Event Managements. 
 									Added Event Control Block Data Structure. 
 									DataStructure optimized for Operating System using Lin. 
@@ -41,9 +42,9 @@ TASK 					Lin_MainTask; 		// Indicates the Main Task reference
 void * 				Lin_TaskLoader; 	// Storage for MSP on loading of the first task 
 
 int Lin_DebugMemLeak; 					// Shows any allocations without deallocation 
-int Lin_DebugMemAllocTimes; 		// Total times of memory allocations 
-int Lin_DebugMsgOpTimes; 				// Total times of message queue operations 
-int Lin_DebugCtxSwTimes; 				// Total times of context switching 
+u32 Lin_DebugMemAllocTimes; 		// Total times of memory allocations 
+u32 Lin_DebugMsgOpTimes; 				// Total times of message queue operations 
+u32 Lin_DebugCtxSwTimes; 				// Total times of context switching 
 
 void 					Lin_InitMem		(u8 * MemS, u8 * MemE); 						// Initializes memory framework 
 void 					Lin_InitSw		(void); 														// Initializes context switching framework 
