@@ -1,4 +1,4 @@
-// Symmetrical Scheduling Core version 0.2.0 header file 
+// Symmetrical Scheduling Core version 0.2.1 header file 
 #ifndef __Sched_H__ 
 #define __Sched_H__ 
 

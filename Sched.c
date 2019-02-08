@@ -1,6 +1,7 @@
-// Symmetrical Scheduling Core version 0.2.0  
+// Symmetrical Scheduling Core version 0.2.1  
 /* Release Notes: 
 
+		<0.2.1 > 190208 Changed SpinLock Behavior. 
 		<0.2.0 > 190208 Added another type of suspend requests. 
 		<0.1.2 > 190206 Added debug info: scheduled times. 
 		<0.1.1 > 190203 Fully Commented. 
@@ -91,7 +92,7 @@ TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), 
 			if(TimeSliceTick(Running)) 													// Apply Time Slice Cost and Check Time Balance 
 				if(!Lint_IsNotWaiting(Running)) PQ_Rot(Running); 	// If Time is up and Still in Waiting List, Rotate. 
 	}
-	else SpinLock = 0; 															// If Previous Cycle CPU Idle or Running has been Killed, Release SpinLock. 
+	if((Running == NULL) || (Lint_IsNotWaiting(Running))) SpinLock = 0; 	// If Previous Cycle CPU Idle or Running leaves Waiting List, Release SpinLock. 
 	PrevSysTime = SysTime; 
 	if(SpinLock <= 0){ 			// If SpinLock inactive 
 		SpinLock = 0; 
