@@ -1,4 +1,4 @@
-// lyrinka OS version 0.1.1 header file 
+// lyrinka OS version 0.2.0 header file 
 #ifndef __OS_H__ 
 #define __OS_H__ 
 
@@ -16,6 +16,9 @@ void OS_GenEvent(TASK Task, u8 info);
 void OS_TBGperiod(int interval); 
 void OS_TBGdelay(int time); 
 void OS_TBGstop(void); 
+
+#define OS_Preempt() Lin_Yield() 
+void OS_Yield(void); 
 void OS_Suspend(void); 
 
 #define OS_Lock() Sched_Lock() 

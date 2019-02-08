@@ -1,6 +1,7 @@
-// lyrinka OS version 0.1.0 
+// lyrinka OS version 0.2.0 
 /* Release Notes 
 
+		<0.2.0 > 190208 Added Yield and Preempt functions. 
 		<0.1.1 > 190206 Added support for dynamic priorities. 
 		<0.1.0 > 190203 Initial Release. This is a library for simplified programming. 
 */ 
@@ -81,6 +82,15 @@ void OS_TBGstop(void){
 	ECB->TimeBase_Mode = -1; 
 	ECB->TimeBase_Stamp = 0; 
 	__critical_exit(); 
+}
+
+void OS_Yield(void){ 
+	MSG Msg; 
+	Msg.Cmd = 0x1; 
+	Msg.Src = 0x0; 
+	Msg.Pld = Lin_GetCurrTask(); 
+	Lin_MsgSubmit(Msg); 
+	Lin_Yield(); 
 }
 
 void OS_Suspend(void){ 

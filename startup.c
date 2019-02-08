@@ -1,8 +1,9 @@
-// lyrinka OS startup code version 0.1.1 
+// lyrinka OS startup code version 0.2.0 
 // Contains main function, scheduler thread and system timer functions 
 // This piece of code is to be executed, not referenced by external code. 
 /* Release Notes: 
 
+			<0.2.0 > 190208 Added support for another type of suspend requests. 
 			<0.1.1 > 190206 Refined error procedures on empty waiting lists. 
 			<0.1.0 > 190204 Initial Release. 
 */
@@ -12,9 +13,14 @@
 u32 TickCount; 
 
 // Internal Functions 
-TASK GetSus(void){ 
-	if(Lin_MsgQty() == 0) return NULL; 
-	return (TASK) Lin_MsgRecv().Pld; 
+int GetSus(TASK * Task){ 
+	if(Lin_MsgQty() == 0){ 
+		*Task = NULL; 
+		return 0; 
+	}
+	MSG Msg = Lin_MsgRecv(); 
+	*Task = Msg.Pld; 
+	return (Msg.Cmd != 0); 
 }
 
 // Handlers & System Code 

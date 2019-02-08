@@ -1,4 +1,4 @@
-// Symmetrical Scheduling Core version 0.1.2 header file 
+// Symmetrical Scheduling Core version 0.2.0 header file 
 #ifndef __Sched_H__ 
 #define __Sched_H__ 
 
@@ -11,7 +11,7 @@ void Sched_Lock(void);
 void Sched_UnLock(void); 
 void Sched_ClrLock(void); 
 
-TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), TASK (*GetSuspended)(void)); 
+TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), int (*GetSuspended)(TASK *)); 
 
 #define Meth_None 0 // Standby. 
 #define Meth_Wait 1 // Woke up from standby list. 

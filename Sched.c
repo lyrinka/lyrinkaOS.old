@@ -1,6 +1,7 @@
-// Symmetrical Scheduling Core version 0.1.2 
+// Symmetrical Scheduling Core version 0.2.0  
 /* Release Notes: 
 
+		<0.2.0 > 190208 Added another type of suspend requests. 
 		<0.1.2 > 190206 Added debug info: scheduled times. 
 		<0.1.1 > 190203 Fully Commented. 
 		<0.1.0 > 190203 Initial Release. 
@@ -62,11 +63,11 @@ void Sched_ClrLock(void){ // Force Release SpinLock.
 int DoEventCheck(TASK Task, u32 SysTime, int (*EvQuery)(void * EvRef), int isPreChk); // Checking Events for a Task. 
 int TimeSliceTick(TASK Task); // Updating and checking TimeSlices for a Task. 
 
-TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), TASK (*GetSus)(void)){ // Pick Next Task 
+TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), int (*GetSus)(TASK *)){ // Pick Next Task 
 	// SysTime is the current ms SystemTick Time. 
 	// EvQuery is for polling events. Return 0 if not found and non-zero if found. 
 	// EvCycle is for marking a mass-receiving cycle. See the Biomimetic Event System for details. 
-	// GetSus return tasks who suspended themselves by requests. 
+	// GetSus fetch tasks who suspended themselves by requests, and return whether they force themselves to woke up directly. 
 	TASK Task = DL_Trav(NULL); 
 	while(Task != NULL){ 	// I. Traverse through Standby List. 
 		TASK NextTask = DL_Trav(Task); 
@@ -76,9 +77,9 @@ TASK Sched_Do(u32 SysTime, int (*EvQuery)(void * EvRef), void (*EvCycle)(void), 
 		}
 		Task = NextTask; 
 	}
-	for(Task = GetSus(); Task != NULL; Task = GetSus()){ // II. Those who suspended themselves. 
+	for(int force= GetSus(&Task); Task != NULL; force = GetSus(&Task)){ // II. Those who suspended themselves or requesting yield. 
 		if(Lint_IsNotWaiting(Task)) continue; 
-		if(DoEventCheck(Task, SysTime, EvQuery, 1)) PQ_Rot(Task); // Previously happened event 
+		if(force || DoEventCheck(Task, SysTime, EvQuery, 1)) PQ_Rot(Task); // Force wake up directly or previously happened event 
 		else{ 
 			PQ_Del(Task); // Does need waiting 
 			DL_Add(Task); 
