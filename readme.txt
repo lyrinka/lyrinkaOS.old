@@ -1,27 +1,6 @@
-Lyrinka OS Exported Library Bundle v1.4 190208
+Lyrinka OS Exported Library Bundle v1.0.0 190228
 
 ------------------------------------------------------------------------- 
-
-1. Lin Architecture Library <Lin.h> 	+ "Lin.c" 
-		version 3.1.3  (190206) 
-
-2. Event System (Dummy) 		<Event.h> + "Event.c" 
-		Dummy System, no version 
-
-3. Linear Table Library 		<Lint.h> 	+ "Lint.c" 
-		version 1  (initial) 
-
-4. Scheduler Architecture 	<Sched.h> + "Sched.c" 
-		version 0.2.1  (190208) 
-
-5. Startup Code 												"Startup.c" 
-		version 0.2.0  (190208) 
-
-6. OS Functions Mixup 			<OS.h> 		+ "OS.c" 
-		version 0.2.0  (190208) 
-
-------------------------------------------------------------------------- 
-
 Add the library folder to your include paths, 
  then add all .c files to your project, 
  include <OS.h> in your tasks file, 
@@ -31,10 +10,11 @@ Add the library folder to your include paths,
 ------------------------------------------------------------------------- 
 Release Notes: 
 
-<1.4 > 190208 Library Sched.c updated. 
-<1.3 > 190208 Library OS.c & OS.h & Sched.c & startup.c updated. 
-<1.2 > 190206 Library OS.c & startup.c & Lin.c updated. 
-<1.1 > 190206 Library OS.c/OS.h updated. 
-<1.0 > 190205 Initial release. 
+<1.0.0 > 190228 Multiple updates, formal release. 
+<1.4   > 190208 Library Sched.c updated. 
+<1.3   > 190208 Library OS.c & OS.h & Sched.c & startup.c updated. 
+<1.2   > 190206 Library OS.c & startup.c & Lin.c updated. 
+<1.1   > 190206 Library OS.c/OS.h updated. 
+<1.0   > 190205 Initial release. 
 ------------------------------------------------------------------------- 
 End of file. 

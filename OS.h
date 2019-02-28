@@ -1,4 +1,4 @@
-// lyrinka OS version 0.2.0 header file 
+// lyrinka OS version 1.0.0 header file 
 #ifndef __OS_H__ 
 #define __OS_H__ 
 
@@ -17,6 +17,7 @@ void OS_TBGperiod(int interval);
 void OS_TBGdelay(int time); 
 void OS_TBGstop(void); 
 
+#define OS_PreemptISR() Lin_YieldISR() 
 #define OS_Preempt() Lin_Yield() 
 void OS_Yield(void); 
 void OS_Suspend(void); 

@@ -1,4 +1,10 @@
-// Linear Table for Symmetrical Scheduling Lists version 1 (initial release + comments) 
+// Linear Table for Symmetrical Scheduling Lists version 2.0.0 
+/* Release Notes: 
+
+	<2.0.0 > 190223 Fixed critical bug where Priority Queue doesn't working properly in multi-priority scheduling. 
+	<1     >        Initial Release. 
+*/
+
 #include <Lin.h> 								// We only use the TASK data type and critical region codes. 
 #include "Lint.h" 
 
@@ -30,6 +36,25 @@ int Lint_nbrStandby(void){ 	// Count elements standby (suspended)
 	return Lint_StdbyCount; 
 }
 
+__forceinline void UpdateRoot_A(TASK Root, TASK New){ 
+	Root->Next = New; 
+	if(Root == MainTask) return; 
+	TASK Temp = Root->RBN; 
+	while(Temp != Root){ 
+		Temp->Next = New; 
+		Temp = Temp->RBN; 
+	}
+}
+__forceinline void UpdateRoot_B(TASK Root, TASK New){ 
+	Root->Prev = New; 
+	if(Root == MainTask) return; 
+	TASK Temp = Root->RBN; 
+	while(Temp != Root){ 
+		Temp->Prev = New; 
+		Temp = Temp->RBN; 
+	}
+}
+
 TASK PQ_Add(TASK N){ 	// Add one task to Priority Queue (Waiting List). 
 	__critical_enter(); 
 	Lint_WaitCount++; 
@@ -44,8 +69,10 @@ TASK PQ_Add(TASK N){ 	// Add one task to Priority Queue (Waiting List).
 	if(Task->Priority != p || Task == MainBlk){ // Create a new slot. 
 		TASK B = Task; 
 		TASK A = Task->Prev; 
-		A->Next = N; 
-		B->Prev = N; 
+		UpdateRoot_A(A, N); 
+		UpdateRoot_B(B, N); 
+//	A->Next = N; 
+//	B->Prev = N; 
 		N->Prev = A; 
 		N->Next = B; 
 		N->LBN = N; 
@@ -72,11 +99,13 @@ TASK PQ_Del(TASK P){ 	// Remove one task from Priority Queue (Waiting List).
 	if(P->RBN != P){ 	// This slot is not stand-alone. 
 		TASK pRoot = P->Prev->Next; 
 		if(pRoot == P){ // This is the root of the slot. Rotate it first. 
-			TASK A = P->Prev; 
-			TASK B = P->Next; 
+//		TASK A = P->Prev; 
+//		TASK B = P->Next; 
 			pRoot = P->RBN; 
-			A->Next = pRoot; 
-			B->Prev = pRoot; 
+			UpdateRoot_A(P->Prev, pRoot); 
+			UpdateRoot_B(P->Next, pRoot); 
+//		A->Next = pRoot; 
+//		B->Prev = pRoot; 
 		}		
 		TASK a = P->LBN; // Disconnect one non-root element of the slot. 
 		TASK b = P->RBN; 
@@ -86,8 +115,10 @@ TASK PQ_Del(TASK P){ 	// Remove one task from Priority Queue (Waiting List).
 	else{ 	// This slot is stand-alone. Directly disconnect. 
 		TASK A = P->Prev; 
 		TASK B = P->Next; 
-		A->Next = B; 
-		B->Prev = A; 
+		UpdateRoot_A(A, B); 
+		UpdateRoot_B(B, A); 
+//	A->Next = B; 
+//	B->Prev = A; 
 	}
 	P->LBN = NULL; 	// Mark it dead. 
 	P->RBN = NULL; 
@@ -110,11 +141,13 @@ TASK PQ_Rot(TASK Task){  // Put this task the last one in its priority slot.
 	__critical_enter(); 
 	if(Task->Prev->Next->LBN != Task){ 
 		Lint_DebugOpTimes++; 
-		TASK A = Task->Prev; 
-		TASK B = Task->Next; 
+//	TASK A = Task->Prev; 
+//	TASK B = Task->Next; 
 		TASK newHead = Task->RBN; 
-		A->Next = newHead; 
-		B->Prev = newHead; 
+		UpdateRoot_A(Task->Prev, newHead); 
+		UpdateRoot_B(Task->Next, newHead); 
+//	A->Next = newHead; 
+//	B->Prev = newHead; 
 	}
 	__critical_exit(); 
 	return Task; 

@@ -1,8 +1,9 @@
-// lyrinka OS startup code version 0.2.0 
+// lyrinka OS startup code version 0.2.1 
 // Contains main function, scheduler thread and system timer functions 
 // This piece of code is to be executed, not referenced by external code. 
 /* Release Notes: 
 
+			<0.2.1 > 190228 Added low power option. 
 			<0.2.0 > 190208 Added support for another type of suspend requests. 
 			<0.1.1 > 190206 Refined error procedures on empty waiting lists. 
 			<0.1.0 > 190204 Initial Release. 
@@ -57,6 +58,9 @@ int main(void){
 void SIP(void){ 
 	static long long a = -1; 
 	a++; 
+#ifdef LPW 
+	__WFI(); 
+#endif 
 }
 
 // Scheduler Process (main task) 
@@ -66,7 +70,7 @@ void OS_Scheduler(int Arg0, int Arg1, u32 Cnt, TASK Self){
 	Ev_Init(); 
 	TASK Task; 
 	
-	Task = OS_New(1024, mainTask); 
+	Task = OS_New(2048, mainTask); 
 	OS_GenEvent(Task, 0); 
 	
 	Task = OS_New(512, SIP); 

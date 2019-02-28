@@ -1,4 +1,4 @@
-// // Linear Table for Symmetrical Scheduling Lists version 1 header file 
+// Linear Table for Symmetrical Scheduling Lists version 2.0.0 header file 
 #ifndef __Lint_H__ 
 #define __Lint_H__ 
 

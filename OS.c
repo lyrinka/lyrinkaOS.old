@@ -1,6 +1,8 @@
-// lyrinka OS version 0.2.0 
+// lyrinka OS version 1.0.0 
 /* Release Notes 
 
+		<1.0.0 > 190228 No changes. 
+		<0.2.1 > 190226 Added PreemptISR macro replacing the old Lin_YieldISR system call for readability. 
 		<0.2.0 > 190208 Added Yield and Preempt functions. 
 		<0.1.1 > 190206 Added support for dynamic priorities. 
 		<0.1.0 > 190203 Initial Release. This is a library for simplified programming. 
