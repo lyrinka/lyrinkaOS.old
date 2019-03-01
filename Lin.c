@@ -1,4 +1,4 @@
-// Lin Architecture version 3.1.3 for lyrinka OS 
+// Lin Architecture version 4.0.0 for lyrinka OS 
 /* The Lin Architecture Framework. 
 	Major changes in stack data structures 
 	providing a smart and flexiable interface 
@@ -10,6 +10,9 @@
 	
 	Release notes: 
 	
+	<4.0.0 > 190301 ThreadExit changed to ProcessExit. 
+					Minor modification on task prototype, easy access of Self pointer, now: 
+						void funcTask(TASK Self, int Arg0, int Arg1, u32 Cnt); 
 	<3.1.3 > 190206 Changed some debug info to unsigned. 
 	<3.1.2 > 190127 Changed TCB Data Structure for Event Managements. 
 									Added Event Control Block Data Structure. 
@@ -338,7 +341,7 @@ static void Lin_InitMsg(u32 PoolSize){
 	Lin_DebugMsgOpTimes = 0; 
 }
 // Initilize the Stack of a new Task. 
-// ThreadExit routine also included. 
+// ProcessExit routine also included. 
 static __asm TASK Lin_StkInit(u8 * Memory, u32 Size, void * funcPtr){ 
 		ADD		R3,  R0, R1 		
 		SUB		R3,  #64 
@@ -360,21 +363,21 @@ static __asm TASK Lin_StkInit(u8 * Memory, u32 Size, void * funcPtr){
 		STR		R0, [R3] // SP 
 		MOV		R0, #0x01000000 
 		STR		R0, [R3, #-4] // xPSR 
-		LDR		R0, =ThreadExit 
+		LDR		R0, =ProcessExit 
 		STR		R0, [R3, #-8] // ThreadExit 
 		MOV		R0,  R3 
 		BX		LR 
 		NOP 
-ThreadExit 
-		LDR		LR, =ThreadExit 
-		LDRD	R0, R1, [SP, #8] 
-		LDR		R2, [SP, #16] 
-		ADD		R2,  #1 
-		STR		R2, [SP, #16] 
-		MOV		R3,  SP 
+ProcessExit 
+		LDR		LR, =ProcessExit 	// Return to ProcessExit on next return 
+		LDRD	R1, R2, [SP, #8] 	// Arg0->R1, Arg1->R2 
+		LDR		R3, [SP, #16] 		// Load Counter 
+		ADD		R3,  #1 					// Increase 
+		STR		R3, [SP, #16] 		// Store back 
+		MOV		R0,  SP 					// Self pointer in R0 
 		LDR		PC, [SP, #4] 
 }
-// Requese for changing the process stack and switch into a Task. 
+// Request for changing the process stack and switch into a Task. 
 static __asm int Lin_Call(TASK Task){ 
 		SVC		SVCn_LinTrigger 
 		BX		LR 

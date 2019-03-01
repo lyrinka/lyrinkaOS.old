@@ -1,4 +1,4 @@
-// lyrinka OS version 1.0.0 header file 
+// lyrinka OS version 1.0.1 header file 
 #ifndef __OS_H__ 
 #define __OS_H__ 
 
@@ -29,7 +29,5 @@ void OS_Suspend(void);
 #define OS_TxMsg(task, msg) Lin_MsgPut(task, msg) 
 #define OS_RxCnt() Lin_MsgQty() 
 #define OS_RxMsg() Lin_MsgRecv() 
-
-#define DeclTask(task) void task(int, int, u32, TASK) 
 
 #endif 

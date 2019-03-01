@@ -1,4 +1,4 @@
-// Lin Architecture header file verion 3.1.3 for lyrinka OS 
+// Lin Architecture header file verion 4.0.0 for lyrinka OS 
 #ifndef __Lin_H__ 
 #define __Lin_H__ 
 
@@ -35,10 +35,10 @@
 		PC 			- 8 						: ThreadExit Routine(for initialization) 
 		LR 			-12 						: / 
 		Reg12 	-16 						: / 
-		Reg3 		-20 						: (reference of itself) 
-		Reg2 		-24 						: (Loop counter value) 
-		Reg1 		-28 						: (Arg1) 
-		Reg0 		-32 <- _HWStkF 	: (Arg0) 
+		Reg3 		-20 						: (Loop counter value) 
+		Reg2 		-24 						: (Arg1) 
+		Reg1 		-28 						: (Arg0) 
+		Reg0 		-32 <- _HWStkF 	: (reference of itself) 
 		Reg11 	-36 						: / 
 		Reg10 	-40 						: / 
 		Reg9 		-44 						: / 
@@ -55,7 +55,7 @@
 		...					<- Low Address 
 
 	Task Function Params: 
-   void funcTask(u32 Arg0, u32 Arg1, u32 Counter, TASK Self); 
+   void funcTask(TASK Self, u32 Arg0, u32 Arg1, u32 Counter); 
 	 Arg0: user applied argument, default 0 
 	 Arg1: user applied argument, default 0 
 	 Counter: the loop counter, increaced after each ThreadExit routine 

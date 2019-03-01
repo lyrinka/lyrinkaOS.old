@@ -1,6 +1,7 @@
-// lyrinka OS version 1.0.0 
-/* Release Notes 
+// lyrinka OS version 1.0.1 
+/* Release Notes: 
 
+		<1.0.1 > 190301 TaskDecl macro deprecated. 
 		<1.0.0 > 190228 No changes. 
 		<0.2.1 > 190226 Added PreemptISR macro replacing the old Lin_YieldISR system call for readability. 
 		<0.2.0 > 190208 Added Yield and Preempt functions. 

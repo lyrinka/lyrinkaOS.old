@@ -3,6 +3,7 @@
 // This piece of code is to be executed, not referenced by external code. 
 /* Release Notes: 
 
+			<0.3.0 > 190301 Minor changes adapting new Lin library. 
 			<0.2.1 > 190228 Added low power option. 
 			<0.2.0 > 190208 Added support for another type of suspend requests. 
 			<0.1.1 > 190206 Refined error procedures on empty waiting lists. 
@@ -43,7 +44,7 @@ void SysTick_Handler(void){
 }
 
 // Main Function 
-extern void OS_Scheduler(int Arg0, int Arg1, u32 Cnt, TASK Self); 
+extern void OS_Scheduler(TASK Self); 
 int main(void){ 
 	Lin_Init(); 
 	TASK OS = Lin_New(1024, OS_Scheduler); 
@@ -64,8 +65,8 @@ void SIP(void){
 }
 
 // Scheduler Process (main task) 
-extern void mainTask(int Arg0, int Arg1, u32 Cnt, TASK Self); 
-void OS_Scheduler(int Arg0, int Arg1, u32 Cnt, TASK Self){ 
+extern void mainTask(TASK Self); 
+void OS_Scheduler(TASK Self){ 
 	Sched_Init(Self); 
 	Ev_Init(); 
 	TASK Task; 
