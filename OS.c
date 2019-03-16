@@ -1,6 +1,7 @@
-// lyrinka OS version 1.0.1 
+// lyrinka OS version 1.0.2 
 /* Release Notes: 
 
+		<1.0.2 > 190301 Header file added extern "C" to work with c++. 
 		<1.0.1 > 190301 TaskDecl macro deprecated. 
 		<1.0.0 > 190228 No changes. 
 		<0.2.1 > 190226 Added PreemptISR macro replacing the old Lin_YieldISR system call for readability. 

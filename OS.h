@@ -1,6 +1,10 @@
-// lyrinka OS version 1.0.1 header file 
+// lyrinka OS version 1.0.2 header file 
 #ifndef __OS_H__ 
 #define __OS_H__ 
+
+#ifdef __cplusplus 
+extern "C" { 
+#endif 
 
 #include <Lin.h> 
 #include <Sched.h> 
@@ -29,5 +33,9 @@ void OS_Suspend(void);
 #define OS_TxMsg(task, msg) Lin_MsgPut(task, msg) 
 #define OS_RxCnt() Lin_MsgQty() 
 #define OS_RxMsg() Lin_MsgRecv() 
+
+#ifdef __cplusplus 
+}
+#endif 
 
 #endif 

@@ -1,4 +1,4 @@
-// Lin Architecture header file verion 4.0.0 for lyrinka OS 
+// Lin Architecture header file verion 4.0.1 for lyrinka OS 
 #ifndef __Lin_H__ 
 #define __Lin_H__ 
 
@@ -99,7 +99,7 @@ typedef struct Lin_ECB{
 	u32 TimeBase_Stamp; 
 	void * WkupRef; 	// On what Event did it wake up? 
 	int EvListSize; 
-	void * EvList[]; 
+	void * EvList[1]; // Pending improvements. 
 }Lin_ECB; 
 
 // Task Control Block Type - TASK 

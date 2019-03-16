@@ -1,4 +1,4 @@
-// Lin Architecture version 4.0.0 for lyrinka OS 
+// Lin Architecture version 4.0.1 for lyrinka OS 
 /* The Lin Architecture Framework. 
 	Major changes in stack data structures 
 	providing a smart and flexiable interface 
@@ -10,6 +10,7 @@
 	
 	Release notes: 
 	
+	<4.0.1 > 190316 Header file now works in C++. Pending improvements on the flexarray at line 102. 
 	<4.0.0 > 190301 ThreadExit changed to ProcessExit. 
 					Minor modification on task prototype, easy access of Self pointer, now: 
 						void funcTask(TASK Self, int Arg0, int Arg1, u32 Cnt); 

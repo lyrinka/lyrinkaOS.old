@@ -1,4 +1,4 @@
-Lyrinka OS Exported Library Bundle v2.0.0 190301 
+Lyrinka OS Exported Library Bundle v2.0.1 190316 
 
 ------------------------------------------------------------------------- 
 Add the library folder to your include paths, 
@@ -10,6 +10,7 @@ Add the library folder to your include paths,
 ------------------------------------------------------------------------- 
 Release Notes: 
 
+<2.0.1 > 190316 Now works with c++. 
 <2.0.0 > 190301 Major update on Lin Architecture behavior. 
 <1.0.0 > 190228 Multiple updates, formal release. 
 <1.4   > 190208 Library Sched.c updated. 
